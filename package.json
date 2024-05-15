@@ -1,0 +1,23 @@
+{
+  "name": "adventofcode-typescript",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "solveday": "tsc -p tsconfig.build.json && node scripts/solve-day.js",
+    "createday": "node scripts/create-day.js"
+  },
+  "imports": {
+    "#utils/*": "./dist/utils/*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.11",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "eslint": "^8.57.0",
+    "jest-extended": "^4.0.2",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  }
+}
