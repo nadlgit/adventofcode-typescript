@@ -1,4 +1,4 @@
-import { getInputLines, sum } from '#utils/index.js';
+import { parseInputLines, sum } from '#utils/index.js';
 import {
   calcWinningPoints,
   countFinalCards,
@@ -6,16 +6,16 @@ import {
   parseCard,
 } from './scratchcard.js';
 
-export function solvePart1(filepath: string) {
-  const cards = getInputLines(filepath).map((line) => parseCard(line));
+export async function solvePart1(filepath: string) {
+  const cards = await parseInputLines(filepath, parseCard);
   const points = cards.map(({ winningList, playerList }) =>
     calcWinningPoints(identifyWinningNumbers(winningList, playerList))
   );
   return sum(points);
 }
 
-export function solvePart2(filepath: string) {
-  const cards = getInputLines(filepath).map((line) => parseCard(line));
+export async function solvePart2(filepath: string) {
+  const cards = await parseInputLines(filepath, parseCard);
   const finalCounts = countFinalCards(cards);
   return sum(finalCounts);
 }

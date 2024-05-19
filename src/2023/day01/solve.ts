@@ -1,12 +1,12 @@
-import { getInputLines, sum } from '#utils/index.js';
+import { parseInputLines, sum } from '#utils/index.js';
 import { decodeCalibration, decodeSpelledCalibration } from './decode-calibration.js';
 
-export function solvePart1(filepath: string) {
-  const calibrations = getInputLines(filepath).map((line) => decodeCalibration(line));
+export async function solvePart1(filepath: string) {
+  const calibrations = await parseInputLines(filepath, decodeCalibration);
   return sum(calibrations);
 }
 
-export function solvePart2(filepath: string) {
-  const calibrations = getInputLines(filepath).map((line) => decodeSpelledCalibration(line));
+export async function solvePart2(filepath: string) {
+  const calibrations = await parseInputLines(filepath, decodeSpelledCalibration);
   return sum(calibrations);
 }
