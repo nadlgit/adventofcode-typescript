@@ -1,3 +1,5 @@
+import { solveQuadraticEquation } from '#utils/index.js';
+
 type Race = { time: number; bestDistance: number };
 
 export function parseRaces(lines: string[]): Race[] {
@@ -26,8 +28,7 @@ export function parseUniqueRace(lines: string[]): Race {
 export function countWinningWays({ time, bestDistance }: Race): number {
   // Given: t is race time, d is best distance and x is hold time
   // Equation is: x² - tx + d < 0, with 0 < x < t
-  const discriminant = time ** 2 - 4 * bestDistance;
-  const solutions = [(time - Math.sqrt(discriminant)) / 2, (time + Math.sqrt(discriminant)) / 2];
+  const solutions = solveQuadraticEquation(1, -time, bestDistance);
   const holdTimeMin = Math.floor(Math.min(...solutions)) + 1;
   const holdTimeMax = Math.ceil(Math.max(...solutions)) - 1;
   return holdTimeMax >= holdTimeMin ? holdTimeMax - holdTimeMin + 1 : 0;

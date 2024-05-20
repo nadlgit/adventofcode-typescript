@@ -6,6 +6,13 @@ export function multiply(nums: number[]) {
   return nums.reduce((acc, curr) => acc * curr, 1);
 }
 
+export function solveQuadraticEquation(a: number, b: number, c: number) {
+  // ax² + bx + c = 0
+  const discriminant = b ** 2 - 4 * a * c;
+  if (discriminant === 0) return [-b / (2 * a)];
+  return [(-b - Math.sqrt(discriminant)) / (2 * a), (-b + Math.sqrt(discriminant)) / (2 * a)];
+}
+
 export function numberPrimes(n: number) {
   const result = new Map<number, number>();
   let prime = 2;
