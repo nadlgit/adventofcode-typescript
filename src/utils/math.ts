@@ -6,6 +6,10 @@ export function multiply(nums: number[]) {
   return nums.reduce((acc, curr) => acc * curr, 1);
 }
 
+export function manhattanDistance([x1, y1]: [number, number], [x2, y2]: [number, number]) {
+  return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+}
+
 export function solveQuadraticEquation(a: number, b: number, c: number) {
   // ax² + bx + c = 0
   const discriminant = b ** 2 - 4 * a * c;
