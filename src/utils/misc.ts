@@ -1,3 +1,9 @@
+import deepEqual from 'deep-equal';
+
+export function isDeepEqual(a: object, b: object): boolean {
+  return deepEqual(a, b, { strict: true });
+}
+
 export function memoize<A extends any[], R>(func: (...args: A) => R) {
   const cache = new Map<string, R>();
   return (...args: A) => {
