@@ -12,7 +12,6 @@
     "#utils/*": "./dist/utils/*"
   },
   "devDependencies": {
-    "@types/deep-equal": "^1.0.4",
     "@types/node": "^20.12.11",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
@@ -20,8 +19,5 @@
     "jest-extended": "^4.0.2",
     "typescript": "^5.4.5",
     "vitest": "^1.6.0"
-  },
-  "dependencies": {
-    "deep-equal": "^2.2.3"
   }
 }

@@ -1,7 +1,5 @@
-import deepEqual from 'deep-equal';
-
-export function isDeepEqual(a: object, b: object): boolean {
-  return deepEqual(a, b, { strict: true });
+export function isEqualObject(a: object, b: object): boolean {
+  return JSON.stringify(a) === JSON.stringify(b);
 }
 
 export function memoize<A extends any[], R>(func: (...args: A) => R) {
