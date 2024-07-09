@@ -1,4 +1,4 @@
-import { isEqualObject, manhattanDistance } from '#utils/index.js';
+import { isEqualObject, manhattanDistance, PriorityQueue } from '#utils/index.js';
 
 type Direction = 'left' | 'right' | 'up' | 'down';
 
@@ -75,46 +75,47 @@ export class CityBlocks {
 export function findPathLeastHeatLoss(city: CityBlocks, crucibleType: CrucibleType): number {
   const startPosition = { row: 0, col: 0 } as const;
   const endPosition = { row: city.nbRows - 1, col: city.nbCols - 1 } as const;
-  let pathOpenList: PathStep[] = [
-    { ...startPosition, directionTo: 'right', heatLoss: 0 },
-    { ...startPosition, directionTo: 'down', heatLoss: 0 },
-  ];
-  let leastHeatLoss = Number.MAX_SAFE_INTEGER;
+  const pathOpenList = new PriorityQueue(
+    [
+      { ...startPosition, directionTo: 'right', heatLoss: 0 },
+      { ...startPosition, directionTo: 'down', heatLoss: 0 },
+    ],
+    ({ row, col, directionTo, heatLoss }: PathStep) => {
+      const heatLossCriteria = heatLoss;
+      const distanceCriteria = manhattanDistance([row, col], [endPosition.row, endPosition.col]);
+      const directionCriteria = directionTo === 'right' || directionTo === 'down' ? 1 : 2;
+      return distanceCriteria + 1000 * directionCriteria + 10000 * heatLossCriteria;
+    }
+  );
   const blocksVisitedHeatLoss: Record<Direction, number>[][] = Array.from(
     new Array(city.nbRows),
     () => Array.from(new Array(city.nbCols), () => ({} as Record<Direction, number>))
   );
+  let leastHeatLoss = Number.MAX_SAFE_INTEGER;
 
-  const isVisited = ({ row, col, directionTo, heatLoss }: PathStep) => {
-    const visited = blocksVisitedHeatLoss[row][col][directionTo];
-    return visited !== undefined && visited <= heatLoss;
-  };
-
-  const heuristic = ({ row, col, directionTo, heatLoss }: PathStep) => {
-    const heatLossCriteria = heatLoss;
-    const distanceCriteria = manhattanDistance([row, col], [endPosition.row, endPosition.col]);
-    const directionCriteria = directionTo === 'right' || directionTo === 'down' ? 1 : 2;
-    return distanceCriteria + 1000 * heatLossCriteria + 10000 * directionCriteria;
-  };
-
-  while (pathOpenList.length > 0) {
-    const { row, col, directionTo, heatLoss } = pathOpenList.shift()!;
-
-    if (!isVisited({ row, col, directionTo, heatLoss })) {
+  while (pathOpenList.size > 0) {
+    const { row, col, directionTo, heatLoss } = pathOpenList.dequeue()!;
+    if (heatLoss >= (blocksVisitedHeatLoss[row][col][directionTo] ?? Number.MAX_SAFE_INTEGER)) {
+      continue;
+    } else {
       blocksVisitedHeatLoss[row][col][directionTo] = heatLoss;
     }
-
+    if (heatLoss >= leastHeatLoss) {
+      continue;
+    }
     if (isEqualObject({ row, col }, endPosition)) {
       leastHeatLoss = Math.min(heatLoss, leastHeatLoss);
       continue;
     }
 
-    pathOpenList = [
-      ...pathOpenList,
-      ...city.findPossibleNextSteps({ row, col, directionTo, heatLoss }, crucibleType),
-    ]
-      .filter((step) => step.heatLoss < leastHeatLoss && !isVisited(step))
-      .sort((a, b) => heuristic(a) - heuristic(b));
+    pathOpenList.enqueueAll(
+      ...city
+        .findPossibleNextSteps({ row, col, directionTo, heatLoss }, crucibleType)
+        .filter(
+          ({ row, col, directionTo, heatLoss }) =>
+            heatLoss < (blocksVisitedHeatLoss[row][col][directionTo] ?? Number.MAX_SAFE_INTEGER)
+        )
+    );
   }
 
   return leastHeatLoss;
