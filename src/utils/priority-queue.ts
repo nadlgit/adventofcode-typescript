@@ -1,32 +1,31 @@
-export class PriorityQueue<T> {
-  private internal: Array<T>;
-  private sortFn: (a: T, b: T) => number;
+import { HeapMin } from './heap.js';
 
-  constructor(items: T[], priorityCalculator: (item: T) => number) {
-    this.internal = [...items];
-    this.sortFn = (a, b) => priorityCalculator(a) - priorityCalculator(b);
-    this.internal.sort(this.sortFn);
+export class PriorityQueue<T> {
+  private internal: HeapMin<T>;
+
+  constructor(items: T[], private priorityCalculator: (item: T) => number) {
+    this.internal = new HeapMin(items.map((item) => ({ item, key: priorityCalculator(item) })));
   }
 
   get size(): number {
-    return this.internal.length;
+    return this.internal.size;
   }
 
   peek(): T | null {
-    return this.internal.length > 0 ? this.internal[0] : null;
+    return this.internal.peek();
   }
 
   enqueue(item: T): void {
-    this.internal.push(item);
-    this.internal.sort(this.sortFn);
+    this.internal.insert(item, this.priorityCalculator(item));
   }
 
   enqueueAll(...items: T[]): void {
-    this.internal.push(...items);
-    this.internal.sort(this.sortFn);
+    for (const item of items) {
+      this.internal.insert(item, this.priorityCalculator(item));
+    }
   }
 
   dequeue(): T | null {
-    return this.internal.shift() ?? null;
+    return this.internal.extract();
   }
 }
