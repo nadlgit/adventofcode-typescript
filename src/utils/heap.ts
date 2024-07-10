@@ -1,11 +1,11 @@
-type HeapNode<T> = { item: T; key: number };
+type HeapNode<T, K> = { item: T; key: K };
 
-abstract class Heap<T> {
-  private readonly nodes: HeapNode<T>[] = [];
+abstract class Heap<T, K> {
+  private readonly nodes: HeapNode<T, K>[] = [];
 
   constructor(
-    private readonly heapPropertyCheck: (parent: HeapNode<T>, child: HeapNode<T>) => boolean,
-    nodes: HeapNode<T>[] = []
+    private readonly heapPropertyCheck: (parent: HeapNode<T, K>, child: HeapNode<T, K>) => boolean,
+    nodes: HeapNode<T, K>[] = []
   ) {
     for (const { item, key } of nodes) {
       this.insert(item, key);
@@ -20,7 +20,7 @@ abstract class Heap<T> {
     return this.nodes.length > 0 ? this.nodes[0].item : null;
   }
 
-  public insert(item: T, key: number): void {
+  public insert(item: T, key: K): void {
     this.nodes.push({ item, key });
     this.siftUp();
   }
@@ -78,14 +78,14 @@ abstract class Heap<T> {
   }
 }
 
-export class HeapMin<T> extends Heap<T> {
-  constructor(nodes: HeapNode<T>[] = []) {
-    super((parent: HeapNode<T>, child: HeapNode<T>) => parent.key <= child.key, nodes);
+export class HeapMin<T, K extends number | string = number> extends Heap<T, K> {
+  constructor(nodes: HeapNode<T, K>[] = []) {
+    super((parent: HeapNode<T, K>, child: HeapNode<T, K>) => parent.key <= child.key, nodes);
   }
 }
 
-export class HeapMax<T> extends Heap<T> {
-  constructor(nodes: HeapNode<T>[] = []) {
-    super((parent: HeapNode<T>, child: HeapNode<T>) => parent.key >= child.key, nodes);
+export class HeapMax<T, K extends number | string = number> extends Heap<T, K> {
+  constructor(nodes: HeapNode<T, K>[] = []) {
+    super((parent: HeapNode<T, K>, child: HeapNode<T, K>) => parent.key >= child.key, nodes);
   }
 }
