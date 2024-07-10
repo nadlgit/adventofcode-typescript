@@ -1,4 +1,4 @@
-import { manhattanDistance, shoelaceArea } from '#utils/index.js';
+import { shoelaceArea, sum } from '#utils/index.js';
 
 type Instruction = {
   direction: 'left' | 'right' | 'up' | 'down';
@@ -25,6 +25,7 @@ export function parseCorrectInstruction(line: string): Instruction {
 
 export function calcLagoonVolume(plan: Instruction[]): number {
   // https://en.wikipedia.org/wiki/Pick%27s_theorem
+  const boundary = sum(plan.map(({ distance }) => distance));
   const vertices = plan.reduce<[number, number][]>(
     (acc, { direction, distance }) => {
       let [row, col] = acc[acc.length - 1];
@@ -47,10 +48,6 @@ export function calcLagoonVolume(plan: Instruction[]): number {
     },
     [[0, 0]]
   );
-  const boundaryPoints = vertices.reduce((acc, [row, col], idx) => {
-    const [prevRow, prevCol] = vertices[idx === 0 ? vertices.length - 1 : idx - 1];
-    return acc + manhattanDistance([row, col], [prevRow, prevCol]);
-  }, 0);
-  const interiorPoints = shoelaceArea(vertices) - boundaryPoints / 2 + 1;
-  return boundaryPoints + interiorPoints;
+  const interior = shoelaceArea(vertices) - boundary / 2 + 1;
+  return boundary + interior;
 }
