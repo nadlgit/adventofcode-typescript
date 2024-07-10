@@ -69,7 +69,7 @@ abstract class Heap<T> {
       }
 
       const childIndex =
-        couldSwapRight && !this.heapPropertyCheck(this.nodes[leftIndex], this.nodes[rightIndex])
+        couldSwapRight && this.heapPropertyCheck(this.nodes[rightIndex], this.nodes[leftIndex])
           ? rightIndex
           : leftIndex;
       this.swapNodes(index, childIndex);
