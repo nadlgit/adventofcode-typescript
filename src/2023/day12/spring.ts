@@ -22,7 +22,7 @@ export const countDamagedArrangements = memoize(
     switch (springs[0]) {
       case '.':
         return countDamagedArrangements({ springs: springs.substring(1), damagedGroups });
-      case '#':
+      case '#': {
         const springGroup = springs.substring(0, damagedGroups[0]);
         if (
           springGroup.length !== damagedGroups[0] ||
@@ -35,6 +35,7 @@ export const countDamagedArrangements = memoize(
           springs: springs.substring(damagedGroups[0] + 1),
           damagedGroups: damagedGroups.slice(1),
         });
+      }
       case '?':
         return (
           countDamagedArrangements({ springs: '.' + springs.substring(1), damagedGroups }) +

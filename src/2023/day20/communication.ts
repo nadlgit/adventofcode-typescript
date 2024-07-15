@@ -5,7 +5,9 @@ type ModuleOutput = { pulse: Pulse; destinations: string[] };
 type Module = {
   name: string;
   destinations: string[];
-  processPulse: (pulse: Pulse, from: string | never) => ModuleOutput | null;
+  processPulse:
+    | ((pulse: Pulse) => ModuleOutput | null)
+    | ((pulse: Pulse, from: string) => ModuleOutput | null);
 };
 
 export function parseModuleConfLine(line: string): {
@@ -138,6 +140,7 @@ export class CommunicationSystem {
       { pulse: 'low', from: '', to: 'broadcaster' },
     ];
     while (pulseQueue.length > 0) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const { pulse: currPulse, from: currFrom, to: currTo } = pulseQueue.shift()!;
       const output = this._modules[currTo].processPulse(currPulse, currFrom);
       if (output) {

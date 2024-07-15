@@ -136,6 +136,7 @@ export function processPossibleRanges(
     { destination: 'in', range: { x: [1, 4000], m: [1, 4000], a: [1, 4000], s: [1, 4000] } },
   ];
   while (queue.length > 0) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const current = queue.shift()!;
     for (const { destination, range } of rangeApplyWorkflow(
       workflows[current.destination],

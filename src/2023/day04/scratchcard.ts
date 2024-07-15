@@ -1,7 +1,7 @@
 export type ScratchCard = { winningList: number[]; playerList: number[] };
 
 export function parseCard(line: string): ScratchCard {
-  const [_, numsPart] = line.replace(/ +/g, ' ').split(':');
+  const [, numsPart] = line.replace(/ +/g, ' ').split(':');
   const [winningList, playerList] = numsPart.split('|').map((part) =>
     part
       .trim()
@@ -20,7 +20,7 @@ export function calcWinningPoints(winningNumbers: number[]): number {
 }
 
 export function countFinalCards(cards: ScratchCard[]): number[] {
-  const cardsCount = new Array(cards.length).fill(1);
+  const cardsCount = new Array<number>(cards.length).fill(1);
   cards.forEach(({ winningList, playerList }, cardIdx) => {
     const winningCount = identifyWinningNumbers(winningList, playerList).length;
     for (let i = cardIdx + 1; i < Math.min(cardIdx + 1 + winningCount, cards.length); i++) {

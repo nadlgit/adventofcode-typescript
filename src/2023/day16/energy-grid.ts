@@ -105,6 +105,7 @@ export function countEnergizedTiles(grid: EnergyGrid, beamEntering: LightBeamHea
   );
   const pathOpenList = [beamEntering];
   while (pathOpenList.length > 0) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const { row, col, directionTo } = pathOpenList.shift()!;
     const visited = tilesVisited[row][col];
     if (!visited.includes(directionTo)) {

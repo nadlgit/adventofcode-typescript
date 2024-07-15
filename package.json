@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "lint": "eslint . --report-unused-disable-directives",
     "test": "vitest",
     "solveday": "tsc -p tsconfig.build.json && node scripts/solve-day.js",
     "createday": "node scripts/create-day.js"

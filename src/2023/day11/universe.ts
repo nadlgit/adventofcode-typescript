@@ -14,7 +14,7 @@ export function parseUniverse(lines: string[]): Universe {
   const galaxies: [number, number][] = [];
   const emptyRowsIndices: number[] = [];
   const emptyColsIndices: number[] = [];
-  const columns: string[] = new Array(nbCols).fill('');
+  const columns = new Array<string>(nbCols).fill('');
   for (let r = 0; r < nbRows; r++) {
     for (let c = 0; c < nbCols; c++) {
       const char = lines[r][c];

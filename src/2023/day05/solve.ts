@@ -16,5 +16,5 @@ export function solvePart2(filepath: string) {
   const almanac = parseAlmanac(getInputLines(filepath));
   const seedRanges = seedsNumsToRanges(almanac.seeds);
   const locationRanges = findSeedRangesLocations(seedRanges, almanac);
-  return Math.min(...locationRanges.map(([start, _]) => start));
+  return Math.min(...locationRanges.map(([start]) => start));
 }

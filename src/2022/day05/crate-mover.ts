@@ -8,6 +8,7 @@ export function parseCrateInstructions(lines: string[]): {
   const stacks = lines
     .filter((line) => line.length > 0 && !line.startsWith('move'))
     .map((line) =>
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       line.match(/.{3}\s?/g)!.map((str) => str.trim().replace('[', '').replace(']', ''))
     )
     .reverse()
@@ -25,6 +26,7 @@ export function parseCrateInstructions(lines: string[]): {
   const instructions = lines
     .filter((line) => line.startsWith('move'))
     .map((line) => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const [count, orig, dest] = line.match(/\d+/g)!.map((n) => Number.parseInt(n));
       return { orig, dest, count };
     });

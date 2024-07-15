@@ -91,13 +91,14 @@ export function findPathLeastHeatLoss(city: CityBlocks, crucibleType: CrucibleTy
       return distanceCriteria + 1000 * directionCriteria + 10000 * heatLossCriteria;
     }
   );
-  const blocksVisitedHeatLoss: Record<Direction, number>[][] = Array.from(
+  const blocksVisitedHeatLoss: Partial<Record<Direction, number>>[][] = Array.from(
     new Array(city.nbRows),
-    () => Array.from(new Array(city.nbCols), () => ({} as Record<Direction, number>))
+    () => Array.from(new Array(city.nbCols), () => ({}))
   );
   let leastHeatLoss = Number.MAX_SAFE_INTEGER;
 
   while (pathOpenList.size > 0) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const { row, col, directionTo, heatLoss } = pathOpenList.dequeue()!;
     if (heatLoss >= (blocksVisitedHeatLoss[row][col][directionTo] ?? Number.MAX_SAFE_INTEGER)) {
       continue;

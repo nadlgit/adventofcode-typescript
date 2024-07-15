@@ -57,13 +57,14 @@ export function performInitSequence(steps: string[]): LensConfig[] {
     }
   }
   return boxes.flatMap((box, boxIdx) =>
-    box.getContent().map(({ label, focal }, slotIdx) =>
-      Object.fromEntries([
-        ['label', label],
-        ['focal', focal],
-        ['boxIdx', boxIdx],
-        ['slotIdx', slotIdx],
-      ])
+    box.getContent().map(
+      ({ label, focal }, slotIdx) =>
+        Object.fromEntries([
+          ['label', label],
+          ['focal', focal],
+          ['boxIdx', boxIdx],
+          ['slotIdx', slotIdx],
+        ]) as LensConfig
     )
   );
 }

@@ -190,7 +190,6 @@ describe('findGameMinCubeSet()', () => {
       expected: { red: 6, green: 3, blue: 2 },
     },
   ])('is $expected for game $game.id', ({ game, expected }) => {
-    const bag: CubeSet = { red: 12, green: 13, blue: 14 };
     expect(identifyGameMinCubeSet(game)).toEqual(expected);
   });
 });

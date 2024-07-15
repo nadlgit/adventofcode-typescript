@@ -72,7 +72,9 @@ describe('sortHandsByType()', () => {
         const hand2 = allTypesDescending[idx2];
         const expected = Math.sign(idx2 - idx1);
         const testCase = `'${hand1}' vs '${hand2}': `;
-        expect(testCase + sortHandsByType(hand1, hand2)).toBe(testCase + expected);
+        expect(testCase + sortHandsByType(hand1, hand2).toString()).toBe(
+          testCase + expected.toString()
+        );
       }
     }
   });
@@ -101,7 +103,9 @@ describe('sortCardsByLabel()', () => {
         const card2 = allCardsDescending[idx2];
         const expected = Math.sign(idx2 - idx1);
         const testCase = `${card1} vs ${card2}: `;
-        expect(testCase + sortCardsByLabel(card1, card2)).toBe(testCase + expected);
+        expect(testCase + sortCardsByLabel(card1, card2).toString()).toBe(
+          testCase + expected.toString()
+        );
       }
     }
   });
@@ -128,7 +132,9 @@ describe('sortCardsByLabel()', () => {
         const card2 = allCardsDescending[idx2];
         const expected = Math.sign(idx2 - idx1);
         const testCase = `${card1} vs ${card2}: `;
-        expect(testCase + sortCardsByLabel(card1, card2, true)).toBe(testCase + expected);
+        expect(testCase + sortCardsByLabel(card1, card2, true).toString()).toBe(
+          testCase + expected.toString()
+        );
       }
     }
   });

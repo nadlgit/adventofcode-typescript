@@ -45,7 +45,7 @@ export function findPatternReflections(pattern: string[]): Reflection[] {
       acc[i] += line[i];
     }
     return acc;
-  }, new Array(pattern.length > 0 ? pattern[0].length : 0).fill(''));
+  }, new Array<string>(pattern.length > 0 ? pattern[0].length : 0).fill(''));
   const horizontals = columns.map((line) => countLineReflectionColsLeft(line));
   for (const n of horizontals[0]) {
     if (horizontals.every((h) => h.has(n))) {
