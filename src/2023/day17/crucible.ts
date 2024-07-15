@@ -1,4 +1,9 @@
-import { isEqualObject, manhattanDistance, PriorityQueue } from '#utils/index.js';
+import {
+  getAdjacentPositions,
+  isEqualObject,
+  manhattanDistance,
+  PriorityQueue,
+} from '#utils/index.js';
 
 type Direction = 'left' | 'right' | 'up' | 'down';
 
@@ -55,20 +60,19 @@ export class CityBlocks {
     col,
     direction,
   }: Position & { direction: Direction }): (Position & { heatLoss: number }) | null {
-    let position: Position | null = null;
-    if (direction === 'left' && col > 0) {
-      position = { row, col: col - 1 };
-    }
-    if (direction === 'right' && col < this.nbCols - 1) {
-      position = { row, col: col + 1 };
-    }
-    if (direction === 'up' && row > 0) {
-      position = { row: row - 1, col };
-    }
-    if (direction === 'down' && row < this.nbRows - 1) {
-      position = { row: row + 1, col };
-    }
-    return position ? { ...position, heatLoss: this.grid[position.row][position.col] } : null;
+    const position = getAdjacentPositions({
+      row,
+      col,
+      filter: {
+        rowMin: 0,
+        rowMax: this.nbRows - 1,
+        colMin: 0,
+        colMax: this.nbCols - 1,
+      },
+    }).find(({ direction: adjDirection }) => adjDirection === direction);
+    return position
+      ? { row: position.row, col: position.col, heatLoss: this.grid[position.row][position.col] }
+      : null;
   }
 }
 

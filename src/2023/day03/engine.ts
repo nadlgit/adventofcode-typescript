@@ -1,3 +1,5 @@
+import { getAdjacentPositions } from '#utils/index.js';
+
 export function parseSchematicLine(line: string) {
   const numbers: { value: number; startIdx: number; endIdx: number }[] = [];
   for (const match of line.matchAll(/\d+/g)) {
@@ -60,18 +62,8 @@ export class EngineSchematic {
     num: (typeof this.numbersInfo)[number],
     symbol: (typeof this.symbolsInfo)[number]
   ) {
-    const symbolAdjacentPos = [
-      [symbol.rowIdx - 1, symbol.colIdx - 1],
-      [symbol.rowIdx - 1, symbol.colIdx],
-      [symbol.rowIdx - 1, symbol.colIdx + 1],
-      [symbol.rowIdx, symbol.colIdx - 1],
-      [symbol.rowIdx, symbol.colIdx + 1],
-      [symbol.rowIdx + 1, symbol.colIdx - 1],
-      [symbol.rowIdx + 1, symbol.colIdx],
-      [symbol.rowIdx + 1, symbol.colIdx + 1],
-    ];
-    return symbolAdjacentPos.some(
-      ([r, c]) => r === num.rowIdx && c >= num.startColIdx && c <= num.endColIdx
+    return getAdjacentPositions({ row: symbol.rowIdx, col: symbol.colIdx }).some(
+      ({ row, col }) => row === num.rowIdx && col >= num.startColIdx && col <= num.endColIdx
     );
   }
 }

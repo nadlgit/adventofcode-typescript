@@ -6,10 +6,6 @@ export function multiply(nums: number[]) {
   return nums.reduce((acc, curr) => acc * curr, 1);
 }
 
-export function manhattanDistance([x1, y1]: [number, number], [x2, y2]: [number, number]) {
-  return Math.abs(x1 - x2) + Math.abs(y1 - y2);
-}
-
 export function solveQuadraticEquation(a: number, b: number, c: number) {
   // ax² + bx + c = 0
   const discriminant = b ** 2 - 4 * a * c;
@@ -48,15 +44,4 @@ export function numberListPrimes(nums: number[]) {
 export function leastCommonMultiple(nums: number[]): number {
   const primePowers = Array.from(numberListPrimes(nums)).map(([prime, pow]) => prime ** pow);
   return multiply(primePowers);
-}
-
-export function shoelaceArea(sortedVertices: [number, number][]) {
-  // https://en.wikipedia.org/wiki/Shoelace_formula
-  return Math.abs(
-    sortedVertices.reduce((acc, [row, col], idx) => {
-      const nextIdx = idx < sortedVertices.length - 1 ? idx + 1 : 0;
-      const [nextRow, nextCol] = sortedVertices[nextIdx];
-      return acc + row * nextCol - col * nextRow;
-    }, 0) / 2
-  );
 }

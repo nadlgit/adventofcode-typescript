@@ -1,51 +1,45 @@
-import { shoelaceArea } from '#utils/index.js';
+import { type AdjacentPosition, getAdjacentPositions, shoelaceArea } from '#utils/index.js';
 
 type PipeCharacter = '-' | '|' | 'F' | '7' | 'L' | 'J' | 'S';
-type Direction = 'left' | 'right' | 'top' | 'bottom';
 type Position = [number, number];
 
 export class Maze {
   constructor(private readonly sketch: string[]) {}
 
   getConnectedPipes([rowIdx, colIdx]: Position): Position[] {
-    const connectedPipes: Position[] = [];
-    const pipeConnections: Record<PipeCharacter, Partial<Record<Direction, PipeCharacter[]>>> = {
+    const pipeConnections: Record<
+      PipeCharacter,
+      Partial<Record<AdjacentPosition['direction'], PipeCharacter[]>>
+    > = {
       '-': { left: ['-', 'F', 'L', 'S'], right: ['-', '7', 'J', 'S'] },
-      '|': { top: ['|', 'F', '7', 'S'], bottom: ['|', 'L', 'J', 'S'] },
-      F: { right: ['-', '7', 'J', 'S'], bottom: ['|', 'L', 'J', 'S'] },
-      '7': { left: ['-', 'F', 'L', 'S'], bottom: ['|', 'L', 'J', 'S'] },
-      L: { right: ['-', '7', 'J', 'S'], top: ['|', 'F', '7', 'S'] },
-      J: { left: ['-', 'F', 'L', 'S'], top: ['|', 'F', '7', 'S'] },
+      '|': { up: ['|', 'F', '7', 'S'], down: ['|', 'L', 'J', 'S'] },
+      F: { right: ['-', '7', 'J', 'S'], down: ['|', 'L', 'J', 'S'] },
+      '7': { left: ['-', 'F', 'L', 'S'], down: ['|', 'L', 'J', 'S'] },
+      L: { right: ['-', '7', 'J', 'S'], up: ['|', 'F', '7', 'S'] },
+      J: { left: ['-', 'F', 'L', 'S'], up: ['|', 'F', '7', 'S'] },
       S: {
         left: ['-', 'F', 'L'],
         right: ['-', '7', 'J'],
-        top: ['|', 'F', '7'],
-        bottom: ['|', 'L', 'J'],
+        up: ['|', 'F', '7'],
+        down: ['|', 'L', 'J'],
       },
     };
-
-    const adjacentPositions: Record<Direction, Position> = {
-      left: [rowIdx, colIdx - 1],
-      right: [rowIdx, colIdx + 1],
-      top: [rowIdx - 1, colIdx],
-      bottom: [rowIdx + 1, colIdx],
-    };
-    for (const [direction, connections] of Object.entries(
-      pipeConnections[this.sketch[rowIdx][colIdx] as PipeCharacter]
-    ) as [Direction, PipeCharacter[]][]) {
-      const [r, c] = adjacentPositions[direction];
-      if (
-        r >= 0 &&
-        r < this.sketch.length &&
-        c >= 0 &&
-        c < this.sketch[0].length &&
-        connections.includes(this.sketch[r][c] as PipeCharacter)
-      ) {
-        connectedPipes.push([r, c]);
-      }
-    }
-
-    return connectedPipes;
+    return getAdjacentPositions({
+      row: rowIdx,
+      col: colIdx,
+      filter: {
+        rowMin: 0,
+        rowMax: this.sketch.length - 1,
+        colMin: 0,
+        colMax: this.sketch[0].length - 1,
+      },
+    })
+      .filter(({ direction, row, col }) =>
+        pipeConnections[this.sketch[rowIdx][colIdx] as PipeCharacter][direction]?.includes(
+          this.sketch[row][col] as PipeCharacter
+        )
+      )
+      .map(({ row, col }) => [row, col] as Position);
   }
 
   detectLoopBoundary(): Position[] {
