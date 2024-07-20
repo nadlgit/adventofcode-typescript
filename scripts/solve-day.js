@@ -17,26 +17,33 @@ async function solveDay() {
   const daySolution = (await import(pathToFileURL(scriptFilepath))).default;
 
   const runs = [];
-  Object.entries(daySolution).forEach(([part, { solve, examples }]) => {
-    for (const { filename, expected } of examples) {
+  for (const part in daySolution) {
+    const { solve, examples } = daySolution[part];
+    for (let i = 0; i < examples.length; i++) {
+      const { filename, expected } = examples[i];
+      const name = `${part} example ${i + 1}`;
       runs.push({
+        name,
         solve,
         filepath: join(srcDirPath, filename),
-        output: (value) =>
-          console.log(`${part} example check:`, 'result=', value, 'expected=', expected),
+        output: (value) => console.timeLog(name, 'result=', value, 'expected=', expected),
       });
     }
+    const name = `${part} puzzle`;
     runs.push({
+      name,
       solve,
       filepath: join(dataDirPath, 'puzzle-input.txt'),
-      output: (value) => console.log(`${part} puzzle result:`, value),
+      output: (value) => console.timeLog(name, 'result=', value),
     });
-  });
+  }
 
-  runs.forEach(({ solve, filepath, output }) => {
+  runs.forEach(({ name, solve, filepath, output }) => {
     checkFileExistence(filepath);
+    console.time(name);
     const result = solve(filepath);
     result instanceof Promise ? result.then((value) => output(value)) : output(result);
   });
 }
+
 solveDay();
