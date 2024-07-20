@@ -47,3 +47,7 @@ export function getAdjacentPositions({
       )
     : allPositions;
 }
+
+export function translateDimension(value: number, size: number): number {
+  return value >= 0 ? value % size : value - size * Math.floor(value / size);
+}
