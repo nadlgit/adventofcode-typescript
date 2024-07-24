@@ -70,17 +70,10 @@ export class RopeSimulation {
   private moveKnot(knot: Position, [prevRow, prevCol]: Position): void {
     const rowDiff = knot[0] - prevRow;
     const colDiff = knot[1] - prevCol;
-    if (Math.abs(rowDiff) <= 1 && Math.abs(colDiff) > 1) {
-      knot[0] = prevRow;
-      knot[1] = prevCol + Math.sign(colDiff);
+    if (Math.abs(rowDiff) <= 1 && Math.abs(colDiff) <= 1) {
+      return;
     }
-    if (Math.abs(rowDiff) > 1 && Math.abs(colDiff) <= 1) {
-      knot[0] = prevRow + Math.sign(rowDiff);
-      knot[1] = prevCol;
-    }
-    if (Math.abs(rowDiff) > 1 && Math.abs(colDiff) > 1) {
-      knot[0] = prevRow + Math.sign(rowDiff);
-      knot[1] = prevCol + Math.sign(colDiff);
-    }
+    knot[0] = Math.abs(rowDiff) > 1 ? prevRow + Math.sign(rowDiff) : prevRow;
+    knot[1] = Math.abs(colDiff) > 1 ? prevCol + Math.sign(colDiff) : prevCol;
   }
 }
