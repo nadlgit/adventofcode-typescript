@@ -30,37 +30,20 @@ export class PriorityQueue<T> {
   }
 }
 
-export class SetQueue<T> {
-  private items: T[] = [];
-  private history: Set<string> = new Set();
+export class QueueItemsSet<T> {
+  private items: Set<string> = new Set();
 
   constructor(items: T[] = []) {
-    this.enqueueAll(...items);
-  }
-
-  get size(): number {
-    return this.items.length;
-  }
-
-  enqueue(item: T): void {
-    const historyKey = JSON.stringify(item);
-    if (!this.history.has(historyKey)) {
-      this.items.push(item);
-      this.history.add(historyKey);
-    }
-  }
-
-  enqueueAll(...items: T[]): void {
     for (const item of items) {
-      this.enqueue(item);
+      this.add(item);
     }
   }
 
-  dequeue(): T | null {
-    return this.items.shift() ?? null;
+  has(item: T): boolean {
+    return this.items.has(JSON.stringify(item));
   }
 
-  dequeueAll(): T[] {
-    return this.items.splice(0);
+  add(item: T): void {
+    this.items.add(JSON.stringify(item));
   }
 }

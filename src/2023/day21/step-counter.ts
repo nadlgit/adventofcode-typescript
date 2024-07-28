@@ -1,7 +1,7 @@
 import {
   findQuadraticEquationFromPoints,
   getAdjacentPositions,
-  SetQueue,
+  QueueItemsSet,
   translateDimension,
 } from '#utils/index.js';
 
@@ -38,18 +38,21 @@ export class Garden {
 
 export function findReachablePlots(garden: Garden, steps: number): Position[] {
   const reachablePlots = new Set<string>();
-  const queue = new SetQueue([{ currPosition: garden.startPosition, currSteps: steps }]);
-  while (queue.size > 0) {
+  const queue = [{ currPosition: garden.startPosition, currSteps: steps }];
+  const queueSet = new QueueItemsSet(queue);
+  while (queue.length > 0) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const { currPosition, currSteps } = queue.dequeue()!;
+    const { currPosition, currSteps } = queue.shift()!;
     if (currSteps < 1) {
       reachablePlots.add(JSON.stringify(currPosition));
     } else {
-      queue.enqueueAll(
-        ...garden
-          .getSingleStepReachablePlots(currPosition)
-          .map((pos) => ({ currPosition: pos, currSteps: currSteps - 1 }))
-      );
+      for (const plot of garden
+        .getSingleStepReachablePlots(currPosition)
+        .map((pos) => ({ currPosition: pos, currSteps: currSteps - 1 }))
+        .filter((plot) => !queueSet.has(plot))) {
+        queue.push(plot);
+        queueSet.add(plot);
+      }
     }
   }
   return [...reachablePlots].map((str) => JSON.parse(str) as Position);
@@ -57,14 +60,20 @@ export function findReachablePlots(garden: Garden, steps: number): Position[] {
 
 export function countReachablePlots(garden: Garden, steps: number): number {
   let reachablePlots = steps % 2 === 0 ? 1 : 0;
-  const queue = new SetQueue([garden.startPosition]);
+  const queue = [garden.startPosition];
+  const queueSet = new QueueItemsSet(queue);
   for (let i = 0; i < steps; i++) {
-    const currPositions = queue.dequeueAll();
+    const currPositions = queue.splice(0);
     for (const position of currPositions) {
-      queue.enqueueAll(...garden.getSingleStepReachablePlots(position));
+      for (const plot of garden
+        .getSingleStepReachablePlots(position)
+        .filter((plot) => !queueSet.has(plot))) {
+        queue.push(plot);
+        queueSet.add(plot);
+      }
     }
     if ((i + 1) % 2 === steps % 2) {
-      reachablePlots += queue.size;
+      reachablePlots += queue.length;
     }
   }
   return reachablePlots;
