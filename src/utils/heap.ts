@@ -80,12 +80,12 @@ abstract class Heap<T, K> {
 
 export class HeapMin<T, K extends number | string = number> extends Heap<T, K> {
   constructor(nodes: HeapNode<T, K>[] = []) {
-    super((parent: HeapNode<T, K>, child: HeapNode<T, K>) => parent.key <= child.key, nodes);
+    super((parent, child) => parent.key <= child.key, nodes);
   }
 }
 
 export class HeapMax<T, K extends number | string = number> extends Heap<T, K> {
   constructor(nodes: HeapNode<T, K>[] = []) {
-    super((parent: HeapNode<T, K>, child: HeapNode<T, K>) => parent.key >= child.key, nodes);
+    super((parent, child) => parent.key >= child.key, nodes);
   }
 }
