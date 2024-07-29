@@ -12,3 +12,21 @@ export function memoize<A extends unknown[], R>(func: (...args: A) => R) {
     return cache.get(key) as R;
   };
 }
+
+export class ObjectSet<T extends object> {
+  private items: Set<string> = new Set();
+
+  constructor(items: T[] = []) {
+    for (const item of items) {
+      this.add(item);
+    }
+  }
+
+  has(item: T): boolean {
+    return this.items.has(JSON.stringify(item));
+  }
+
+  add(item: T): void {
+    this.items.add(JSON.stringify(item));
+  }
+}

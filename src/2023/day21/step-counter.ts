@@ -1,7 +1,7 @@
 import {
   findQuadraticEquationFromPoints,
   getAdjacentPositions,
-  QueueItemsSet,
+  ObjectSet,
   translateDimension,
 } from '#utils/index.js';
 
@@ -39,7 +39,7 @@ export class Garden {
 export function findReachablePlots(garden: Garden, steps: number): Position[] {
   const reachablePlots = new Set<string>();
   const queue = [{ currPosition: garden.startPosition, currSteps: steps }];
-  const queueSet = new QueueItemsSet(queue);
+  const queueSet = new ObjectSet(queue);
   while (queue.length > 0) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const { currPosition, currSteps } = queue.shift()!;
@@ -61,7 +61,7 @@ export function findReachablePlots(garden: Garden, steps: number): Position[] {
 export function countReachablePlots(garden: Garden, steps: number): number {
   let reachablePlots = steps % 2 === 0 ? 1 : 0;
   const queue = [garden.startPosition];
-  const queueSet = new QueueItemsSet(queue);
+  const queueSet = new ObjectSet(queue);
   for (let i = 0; i < steps; i++) {
     const currPositions = queue.splice(0);
     for (const position of currPositions) {

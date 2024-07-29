@@ -1,4 +1,4 @@
-import { getAdjacentPositions, isEqualObject, PriorityQueue, QueueItemsSet } from '#utils/index.js';
+import { getAdjacentPositions, isEqualObject, ObjectSet, PriorityQueue } from '#utils/index.js';
 
 type Position = [number, number];
 
@@ -65,7 +65,7 @@ function findFewestStepsFromPosition(hill: HillMap, origin: Position): number {
   let fewestSteps = Number.MAX_SAFE_INTEGER;
   const steps = new PathSteps();
   const pathOpenList = new PriorityQueue([origin], (position) => steps.get(position));
-  const positionSet = new QueueItemsSet([origin]);
+  const positionSet = new ObjectSet([origin]);
   while (pathOpenList.size > 0) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const position = pathOpenList.dequeue()!;

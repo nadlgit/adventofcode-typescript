@@ -3,4 +3,4 @@ export * from './file.js';
 export * from './geometry.js';
 export * from './math.js';
 export * from './misc.js';
-export * from './queues.js';
+export * from './queue.js';

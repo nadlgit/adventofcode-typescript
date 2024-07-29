@@ -29,21 +29,3 @@ export class PriorityQueue<T> {
     return this.internal.extract();
   }
 }
-
-export class QueueItemsSet<T> {
-  private items: Set<string> = new Set();
-
-  constructor(items: T[] = []) {
-    for (const item of items) {
-      this.add(item);
-    }
-  }
-
-  has(item: T): boolean {
-    return this.items.has(JSON.stringify(item));
-  }
-
-  add(item: T): void {
-    this.items.add(JSON.stringify(item));
-  }
-}
