@@ -59,3 +59,9 @@ export function leastCommonMultiple(nums: number[]): number {
   const primePowers = Array.from(numberListPrimes(nums)).map(([prime, pow]) => prime ** pow);
   return multiply(primePowers);
 }
+
+export function integerRange(from: number, to: number) {
+  const length = Math.abs(to - from) + 1;
+  const step = Math.sign(to - from);
+  return Array.from(new Array(length), (_, i) => from + i * step);
+}
