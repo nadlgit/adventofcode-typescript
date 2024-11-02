@@ -1,9 +1,5 @@
-import {
-  getAdjacentPositions,
-  isEqualObject,
-  manhattanDistance,
-  PriorityQueue,
-} from '#utils/index.js';
+import { isDeepStrictEqual } from 'node:util';
+import { getAdjacentPositions, manhattanDistance, PriorityQueue } from '#utils/index.js';
 
 type Direction = 'left' | 'right' | 'up' | 'down';
 
@@ -108,7 +104,7 @@ export function findPathLeastHeatLoss(city: CityBlocks, crucibleType: CrucibleTy
     if (heatLoss >= leastHeatLoss) {
       continue;
     }
-    if (isEqualObject({ row, col }, endPosition)) {
+    if (isDeepStrictEqual({ row, col }, endPosition)) {
       leastHeatLoss = Math.min(heatLoss, leastHeatLoss);
       continue;
     }

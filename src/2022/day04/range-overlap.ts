@@ -1,4 +1,4 @@
-import { isEqualObject } from '#utils/index.js';
+import { isDeepStrictEqual } from 'node:util';
 
 export type Range = [number, number];
 
@@ -22,7 +22,7 @@ export function findRangesOverlap(
 export function isFullyContainingPair(line: string): boolean {
   const [range1, range2] = parseRangePair(line);
   const overlap = findRangesOverlap(range1, range2);
-  return isEqualObject(overlap, range1) || isEqualObject(overlap, range2);
+  return isDeepStrictEqual(overlap, range1) || isDeepStrictEqual(overlap, range2);
 }
 
 export function isOverlappingPair(line: string): boolean {

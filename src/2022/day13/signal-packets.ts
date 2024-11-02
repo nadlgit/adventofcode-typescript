@@ -1,4 +1,4 @@
-import { isEqualObject } from '#utils/index.js';
+import { isDeepStrictEqual } from 'node:util';
 
 type PacketDataList = (number | PacketDataList)[];
 
@@ -70,7 +70,7 @@ export function findDecoderKey(packets: PacketDataList[]): number {
   const divider1 = [[2]];
   const divider2 = [[6]];
   const sortedSignal = sortPackets([divider1, divider2, ...packets]);
-  const index1 = 1 + sortedSignal.findIndex((packet) => isEqualObject(packet, divider1));
-  const index2 = 1 + sortedSignal.findIndex((packet) => isEqualObject(packet, divider2));
+  const index1 = 1 + sortedSignal.findIndex((packet) => isDeepStrictEqual(packet, divider1));
+  const index2 = 1 + sortedSignal.findIndex((packet) => isDeepStrictEqual(packet, divider2));
   return index1 * index2;
 }

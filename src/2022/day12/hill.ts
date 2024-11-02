@@ -1,4 +1,5 @@
-import { getAdjacentPositions, isEqualObject, ObjectSet, PriorityQueue } from '#utils/index.js';
+import { isDeepStrictEqual } from 'node:util';
+import { getAdjacentPositions, ObjectSet, PriorityQueue } from '#utils/index.js';
 
 type Position = [number, number];
 
@@ -72,7 +73,7 @@ function findFewestStepsFromPosition(hill: HillMap, origin: Position): number {
     if (steps.get(position) >= fewestSteps) {
       continue;
     }
-    if (isEqualObject(position, hill.end)) {
+    if (isDeepStrictEqual(position, hill.end)) {
       fewestSteps = Math.min(steps.get(position), fewestSteps);
       continue;
     }
