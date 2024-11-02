@@ -6,8 +6,9 @@
   "scripts": {
     "lint": "eslint . --report-unused-disable-directives",
     "test": "vitest",
-    "solveday": "tsc -p tsconfig.build.json && node scripts/solve-day.js",
-    "createday": "node scripts/create-day.js"
+    "createday": "node scripts/create-day.js",
+    "testday": "node scripts/test-day.js",
+    "solveday": "tsc -p tsconfig.build.json && node scripts/solve-day.js"
   },
   "imports": {
     "#utils/*": "./dist/utils/*"
