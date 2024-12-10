@@ -1,5 +1,13 @@
+import { ObjectSet } from '#utils/index.js';
+
 export class AntennaMap {
-  private readonly antennaPosition: Record<string, { row: number; col: number }[]>;
+  private readonly antennasByFrequency: Record<string, { row: number; col: number }[]>;
+  private readonly antennaPairs: {
+    row1: number;
+    col1: number;
+    row2: number;
+    col2: number;
+  }[];
 
   constructor(
     private readonly nbRows: number,
@@ -10,13 +18,22 @@ export class AntennaMap {
       col: number;
     }[]
   ) {
-    this.antennaPosition = antennas.reduce<typeof this.antennaPosition>(
+    this.antennasByFrequency = antennas.reduce<typeof this.antennasByFrequency>(
       (acc, { frequency, row, col }) => {
         acc[frequency] = acc[frequency] ?? [];
         acc[frequency].push({ row, col });
         return acc;
       },
       {}
+    );
+    this.antennaPairs = Object.values(this.antennasByFrequency).flatMap((positions) =>
+      positions.reduce<typeof this.antennaPairs>((acc, { row: row1, col: col1 }, idx1) => {
+        for (let idx2 = idx1 + 1; idx2 < positions.length; idx2++) {
+          const { row: row2, col: col2 } = positions[idx2];
+          acc.push({ row1, col1, row2, col2 });
+        }
+        return acc;
+      }, [])
     );
   }
 
@@ -40,35 +57,48 @@ export class AntennaMap {
   }
 
   findAntinodeLocations(ignoreDistance: boolean): { row: number; col: number }[] {
-    const antinodesStr = new Set<string>();
-    for (let row0 = 0; row0 < this.nbRows; row0++) {
-      for (let col0 = 0; col0 < this.nbCols; col0++) {
-        for (const frequencyAntennaPositions of Object.values(this.antennaPosition)) {
-          for (let i = 0; i < frequencyAntennaPositions.length; i++) {
-            const { row: row1, col: col1 } = frequencyAntennaPositions[i];
-            for (let j = i + 1; j < frequencyAntennaPositions.length; j++) {
-              const { row: row2, col: col2 } = frequencyAntennaPositions[j];
+    const antinodes = ignoreDistance
+      ? this.antennaPairs.reduce<ObjectSet<{ row: number; col: number }>>(
+          (acc, { row1, col1, row2, col2 }) => {
+            for (let row = 0; row < this.nbRows; row++) {
               // a*x + b*y + c = 0
-              const vectorRow = row2 - row1;
-              const vectorCol = col2 - col1;
-              const a = vectorCol;
-              const b = -vectorRow;
+              const a = col2 - col1;
+              const b = row1 - row2;
               const c = -a * row1 - b * col1;
-              const isAligned = a * row0 + b * col0 + c === 0;
-              const hasRequiredDistance =
-                (row0 === row1 - vectorRow && col0 === col1 - vectorCol) ||
-                (row0 === row2 + vectorRow && col0 === col2 + vectorCol);
-              if (isAligned && (ignoreDistance || hasRequiredDistance)) {
-                antinodesStr.add(JSON.stringify({ row: row0, col: col0 }));
+              const col = -(a * row + c) / b;
+              if (this.isValidPosition({ row, col })) {
+                acc.add({ row, col });
               }
             }
-          }
-        }
-      }
-    }
-    const antinodes = [...antinodesStr].map(
-      (str) => JSON.parse(str) as { row: number; col: number }
+            return acc;
+          },
+          new ObjectSet()
+        )
+      : this.antennaPairs.reduce<ObjectSet<{ row: number; col: number }>>(
+          (acc, { row1, col1, row2, col2 }) => {
+            for (const { row, col } of [
+              { row: 2 * row1 - row2, col: 2 * col1 - col2 },
+              { row: 2 * row2 - row1, col: 2 * col2 - col1 },
+            ]) {
+              if (this.isValidPosition({ row, col })) {
+                acc.add({ row, col });
+              }
+            }
+            return acc;
+          },
+          new ObjectSet()
+        );
+    return antinodes.values();
+  }
+
+  private isValidPosition({ row, col }: { row: number; col: number }): boolean {
+    return (
+      Number.isInteger(row) &&
+      row >= 0 &&
+      row < this.nbRows &&
+      Number.isInteger(col) &&
+      col >= 0 &&
+      col < this.nbCols
     );
-    return antinodes;
   }
 }
