@@ -13,6 +13,7 @@ export class FileSystem {
     for (const line of lines.filter((line) => line.length > 0)) {
       const [part1, part2, part3] = line.split(' ');
       if (part1 === '$' && part2 === 'cd') {
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         part3 === '..' ? currentDir.pop() : currentDir.push(part3);
       }
       if (part1 === 'dir') {

@@ -1,5 +1,7 @@
+import console from 'node:console';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
+import process from 'node:process';
 
 export function checkYear(year) {
   const minYear = 2015;

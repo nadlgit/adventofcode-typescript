@@ -44,6 +44,7 @@ describe('isSafeReport() with allowBadLevel = false', () => {
     [[8, 6, 4, 4, 1], false],
     [[1, 3, 6, 7, 9], true],
   ])('handle example %o', (report, expected) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expected ? expectAccepted(report) : expectRejected(report);
   });
 });
@@ -72,6 +73,7 @@ describe('isSafeReport() with allowBadLevel = true', () => {
     [[8, 6, 4, 4, 1], true],
     [[1, 3, 6, 7, 9], true],
   ])('handle example %o', (report, expected) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expected ? expectAccepted(report) : expectRejected(report);
   });
 });

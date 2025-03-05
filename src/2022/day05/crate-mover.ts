@@ -41,6 +41,7 @@ export function applyMoveV9000({ orig, dest, count }: MoveInstruction, stacks: C
 
   for (let i = 0; i < count; i++) {
     const crate = origStack.content.pop();
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     crate && destStack.content.push(crate);
   }
 }

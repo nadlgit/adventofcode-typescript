@@ -1,5 +1,7 @@
+import console from 'node:console';
 import { cpSync } from 'node:fs';
 import { join } from 'node:path';
+import process from 'node:process';
 import { checkDay, checkYear, getDayDirPaths } from './common.js';
 
 const year = process.argv[2];

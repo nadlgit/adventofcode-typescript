@@ -198,6 +198,7 @@ describe('isUpdateOrdered()', () => {
       [[61, 13, 29], false],
       [[97, 13, 75, 29, 47], false],
     ])('%o -> %s', (update, expected) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       expected ? expectAccepted(update, rules) : exceptRejected(update, rules);
     });
   });

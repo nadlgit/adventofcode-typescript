@@ -1,4 +1,6 @@
+import console from 'node:console';
 import { join } from 'node:path';
+import process from 'node:process';
 import { pathToFileURL } from 'node:url';
 import { checkFileExistence, getDayDirPaths } from './common.js';
 

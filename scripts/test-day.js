@@ -1,4 +1,6 @@
 import { execSync } from 'node:child_process';
+import console from 'node:console';
+import process from 'node:process';
 import { getDayDirPaths } from './common.js';
 
 const year = process.argv[2];
