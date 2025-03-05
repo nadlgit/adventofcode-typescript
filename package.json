@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "eslint . --report-unused-disable-directives",
+    "lint": "eslint .",
     "test": "vitest",
     "createday": "node scripts/create-day.js",
     "testday": "node scripts/test-day.js",
@@ -14,12 +14,12 @@
     "#utils/*": "./dist/utils/*"
   },
   "devDependencies": {
+    "@eslint/js": "^9.21.0",
     "@types/node": "^20.12.11",
-    "@typescript-eslint/eslint-plugin": "^7.8.0",
-    "@typescript-eslint/parser": "^7.8.0",
-    "eslint": "^8.57.0",
+    "eslint": "^9.21.0",
     "jest-extended": "^4.0.2",
     "typescript": "^5.4.5",
-    "vitest": "^1.6.0"
+    "typescript-eslint": "^8.26.0",
+    "vitest": "^3.0.7"
   }
 }
