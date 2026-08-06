@@ -14,17 +14,12 @@
     "#utils/*": "./dist/utils/*"
   },
   "devDependencies": {
-    "@eslint/js": "^9.30.0",
-    "@types/node": "^20.19.2",
-    "eslint": "^9.30.0",
-    "jest-extended": "^4.0.2",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.35.0",
-    "vitest": "^3.2.4"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ]
+    "@eslint/js": "^9.39.5",
+    "@types/node": "^20.19.43",
+    "eslint": "^9.39.5",
+    "jest-extended": "^7.0.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.66.0",
+    "vitest": "^4.1.10"
   }
 }
