@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "eslint .",
+    "lint": "tsc --noEmit && eslint .",
     "test": "vitest",
     "createday": "node scripts/create-day.js",
     "testday": "node scripts/test-day.js",
@@ -18,7 +18,7 @@
     "@types/node": "^20.19.43",
     "eslint": "^9.39.5",
     "jest-extended": "^7.0.0",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.3",
     "typescript-eslint": "^8.66.0",
     "vitest": "^4.1.10"
   }

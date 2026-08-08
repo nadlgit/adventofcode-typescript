@@ -3,6 +3,7 @@
   "exclude": ["**/*.test.ts"],
   "compilerOptions": {
     "noEmit": false,
+    "rootDir": "./src",
     "outDir": "dist"
   }
 }

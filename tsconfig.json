@@ -12,6 +12,6 @@
     "paths": {
       "#utils/*": ["./src/utils/*"]
     },
-    "types": ["vitest/globals", "jest-extended"]
+    "types": ["node", "vitest/globals", "jest-extended"]
   }
 }
