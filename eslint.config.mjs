@@ -1,10 +1,14 @@
 import jseslint from '@eslint/js';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 
-export default [
+export default defineConfig([
   {
-    ignores: ['dist'],
+    linterOptions: {
+      reportUnusedDisableDirectives: 'warn',
+    },
   },
+  globalIgnores(['dist']),
   jseslint.configs.recommended,
   {
     rules: {
@@ -12,23 +16,19 @@ export default [
       'require-await': 'warn',
     },
   },
-  ...tseslint
-    .config(tseslint.configs.strictTypeChecked, {
-      languageOptions: {
-        parserOptions: {
-          projectService: true,
-          tsconfigRootDir: import.meta.dirname,
-        },
+  {
+    files: ['src/**/*.ts'],
+    extends: [tseslint.configs.strictTypeChecked],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
       },
-      rules: {
-        '@typescript-eslint/no-non-null-assertion': 'warn',
-        '@typescript-eslint/no-unused-expressions': 'warn',
-        '@typescript-eslint/no-unused-vars': 'warn',
-        '@typescript-eslint/require-await': 'warn',
-      },
-    })
-    .map((config) => ({
-      ...config,
-      files: ['src/**/*.ts'],
-    })),
-];
+    },
+    rules: {
+      '@typescript-eslint/no-non-null-assertion': 'warn',
+      '@typescript-eslint/no-unused-expressions': 'warn',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/require-await': 'warn',
+    },
+  },
+]);
