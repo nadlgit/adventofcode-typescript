@@ -17,6 +17,9 @@ importers:
       eslint:
         specifier: ^10.8.1
         version: 10.8.1(supports-color@7.2.0)
+      eslint-plugin-only-warn:
+        specifier: ^1.2.1
+        version: 1.2.1
       jest-extended:
         specifier: ^7.0.0
         version: 7.0.0(typescript@6.0.3)
@@ -597,6 +600,9 @@ packages:
   escape-string-regexp@4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
+
+  eslint-plugin-only-warn@1.2.1:
+    resolution: {integrity: sha512-j37hwfaQDEOfkZ1Dpvu/HnWLavlzQxQxfbrU/9Jb4R9qzrE1eTYuRJyrxq7LzLRI8miG5FOV6veoUVhx7AI84w==}
 
   eslint-scope@9.1.2:
     resolution: {integrity: sha512-xS90H51cKw0jltxmvmHy2Iai1LIqrfbw57b79w/J7MfvDfkIkFZ+kj6zC3BjtUwh150HsSSdxXZcsuv72miDFQ==}
@@ -1460,6 +1466,8 @@ snapshots:
       '@esbuild/win32-x64': 0.28.1
 
   escape-string-regexp@4.0.0: {}
+
+  eslint-plugin-only-warn@1.2.1: {}
 
   eslint-scope@9.1.2:
     dependencies:

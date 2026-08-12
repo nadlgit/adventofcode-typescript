@@ -17,6 +17,7 @@
     "@eslint/js": "^10.0.1",
     "@types/node": "^20.19.43",
     "eslint": "^10.8.1",
+    "eslint-plugin-only-warn": "^1.2.1",
     "jest-extended": "^7.0.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.66.0",
