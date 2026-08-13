@@ -11,41 +11,41 @@ if (!year || !day) {
   process.exit(1);
 }
 
-async function solveDay() {
-  const { dataDirPath, distDirPath, srcDirPath } = getDayDirPaths(year, day);
+const { dataDirPath, distDirPath, srcDirPath } = getDayDirPaths(year, day);
 
-  const scriptFilepath = join(distDirPath, 'index.js');
-  checkFileExistence(scriptFilepath);
-  const daySolution = (await import(pathToFileURL(scriptFilepath))).default;
+const scriptFilepath = join(distDirPath, 'index.js');
+checkFileExistence(scriptFilepath);
+const daySolution = (await import(pathToFileURL(scriptFilepath))).default;
 
-  const runs = [];
-  for (const part in daySolution) {
-    const { solve, examples } = daySolution[part];
-    for (let i = 0; i < examples.length; i++) {
-      const { filename, expected } = examples[i];
-      const name = `${part} example ${i + 1}`;
-      runs.push({
-        name,
-        solve,
-        filepath: join(srcDirPath, filename),
-        output: (value) => console.timeLog(name, 'result=', value, 'expected=', expected),
-      });
-    }
-    const name = `${part} puzzle`;
+const runs = [];
+for (const part in daySolution) {
+  const { solve, examples } = daySolution[part];
+  for (let i = 0; i < examples.length; i++) {
+    const { filename, expected } = examples[i];
+    const name = `${part} example ${i + 1}`;
     runs.push({
       name,
       solve,
-      filepath: join(dataDirPath, 'puzzle-input.txt'),
-      output: (value) => console.timeLog(name, 'result=', value),
+      filepath: join(srcDirPath, filename),
+      output: (value) => console.timeLog(name, 'result=', value, 'expected=', expected),
     });
   }
-
-  runs.forEach(({ name, solve, filepath, output }) => {
-    checkFileExistence(filepath);
-    console.time(name);
-    const result = solve(filepath);
-    result instanceof Promise ? result.then((value) => output(value)) : output(result);
+  const name = `${part} puzzle`;
+  runs.push({
+    name,
+    solve,
+    filepath: join(dataDirPath, 'puzzle-input.txt'),
+    output: (value) => console.timeLog(name, 'result=', value),
   });
 }
 
-solveDay();
+runs.forEach(({ name, solve, filepath, output }) => {
+  checkFileExistence(filepath);
+  console.time(name);
+  const result = solve(filepath);
+  if (result instanceof Promise) {
+    result.then((value) => output(value));
+  } else {
+    output(result);
+  }
+});
