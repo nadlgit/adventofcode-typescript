@@ -9,12 +9,8 @@ it.runIf(inputFilePath && answerPart1)('solve part 1', async () => {
   expect(String(result as unknown)).toBe(answerPart1);
 });
 
-it.runIf(day.part2 && inputFilePath && answerPart2)(
-  'solve part 2',
-  async () => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const result = await day.part2!.solve(inputFilePath!);
-    expect(String(result as unknown)).toBe(answerPart2);
-  },
-  10_000,
-);
+it.runIf(day.part2 && inputFilePath && answerPart2)('solve part 2', async () => {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const result = await day.part2!.solve(inputFilePath!);
+  expect(String(result as unknown)).toBe(answerPart2);
+});

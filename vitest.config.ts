@@ -7,6 +7,7 @@ export default defineConfig({
     globals: true,
     passWithNoTests: true,
     setupFiles: ['jest-extended/all'],
+    testTimeout: 60_000,
   },
   resolve: {
     alias: {

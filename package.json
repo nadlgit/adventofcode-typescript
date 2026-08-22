@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "lint": "tsc --noEmit && eslint .",
-    "test": "vitest",
+    "test": "vitest run",
     "createday": "node scripts/create-day.js",
     "testday": "node scripts/test-day.js",
     "solveday": "tsc -p tsconfig.build.json && node scripts/solve-day.js"
